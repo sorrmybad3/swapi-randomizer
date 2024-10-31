@@ -10,6 +10,10 @@ describe("Get poeple labmda handler unit test.", () => {
   let mockFindPeople: jest.Mock;
   let person: PeopleSchema;
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   beforeAll(() => {
     person = PeopleMock.generatePeople();
     mockFindPeople = jest.fn().mockResolvedValue(person);

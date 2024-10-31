@@ -2,32 +2,28 @@ import "reflect-metadata";
 import { inject, injectable } from "tsyringe";
 import { CharacterRepositoryI } from "./character.repository.interface";
 import { CreateCharacterDto } from "../dto/create.character.dto";
-import {
-  DynamoDBClient,
-  GetItemCommand,
-  PutItemCommand,
-} from "@aws-sdk/client-dynamodb";
+import { GetItemCommand, PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { v4 as uuidv4 } from "uuid";
 import { faker } from "@faker-js/faker";
 import { DynamoDocumentItemType } from "../../lib/types/dynamo.types";
 import { Config, EnvEnum } from "../../config/config";
+import { DynamoDBClientProvider } from "../../lib/dynamodb/dynamo.client";
 
 @injectable()
 export class CharacterRepository implements CharacterRepositoryI {
-  constructor(@inject(Config) private readonly config: Config) {}
+  private readonly TABLE_NAME: string = "";
 
-  private readonly dynamoDb = new DynamoDBClient({
-    region: this.config.get(EnvEnum.AWS_REGION),
-    endpoint: this.config.get(EnvEnum.AWS_DYNAMODB_ENDPOINT),
-  });
-  private readonly TABLE_NAME = this.config.get(
-    EnvEnum.AWS_DYNAMO_CHARACTERS_TABLE,
-  );
+  constructor(
+    @inject(Config) private readonly config: Config,
+    @inject(DynamoDBClientProvider)
+    private readonly dbProvider: DynamoDBClientProvider,
+  ) {
+    this.config.get(EnvEnum.AWS_DYNAMO_CHARACTERS_TABLE);
+  }
 
   async createCharacter(
     dto: CreateCharacterDto,
   ): Promise<DynamoDocumentItemType> {
-    console.debug("Creating character with dto: ", dto);
     let uuid = uuidv4();
     const putCharacterItem = {
       TableName: this.TABLE_NAME,
@@ -45,8 +41,9 @@ export class CharacterRepository implements CharacterRepositoryI {
         },
       },
     };
-    await this.dynamoDb.send(new PutItemCommand(putCharacterItem));
-
+    await this.dbProvider
+      .getClient()
+      .send(new PutItemCommand(putCharacterItem));
     return await this.findOneCharacter(uuid);
   }
 
@@ -57,9 +54,9 @@ export class CharacterRepository implements CharacterRepositoryI {
         id: { S: id },
       },
     };
-    const lookupResult = await this.dynamoDb.send(
-      new GetItemCommand(lookupCharacterItem),
-    );
+    const lookupResult = await this.dbProvider
+      .getClient()
+      .send(new GetItemCommand(lookupCharacterItem));
     return lookupResult.Item;
   }
 }

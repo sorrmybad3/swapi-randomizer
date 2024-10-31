@@ -26,6 +26,10 @@ class TestDto {
 }
 
 describe("MapperUtils Unit test", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("maps correclty when validation and schema are expected.", async () => {
     const data = { name: "John", age: 25 };
 

@@ -9,7 +9,9 @@
     "lint": "npm run prettier && npm run eslint",
     "test": "jest",
     "local": "serverless offline start",
-    "deploy": "npx serverless deploy"
+    "deploy": "npx serverless deploy",
+    "container:up": "docker-compose up -d",
+    "container:down": "docker-compose down -v"
   },
   "keywords": [],
   "author": "",

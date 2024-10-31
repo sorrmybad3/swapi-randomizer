@@ -11,6 +11,7 @@ describe("People Service Unit test", () => {
   let peopleApiServiceMock: PeopleApiService = {
     get: jest.fn().mockResolvedValue(person),
   } as unknown as PeopleApiService;
+
   beforeAll(() => {
     container.register(PeopleApiService, { useValue: peopleApiServiceMock });
     peopleService = container.resolve(PeopleService);
