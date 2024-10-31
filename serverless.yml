@@ -1,0 +1,23 @@
+org: fmmarchand
+app: swapi-randomizer
+service: character-service
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-east-1
+  stage: dev
+  apiGateway:
+    shouldStartNameWithService: true
+
+functions:
+  getPeople:
+    handler: src/handlers/people/getPeople.handler
+    events:
+      - http:
+          path: myswapi/{id}
+          method: get
+          cors: true
+
+plugins:
+  - serverless-offline
