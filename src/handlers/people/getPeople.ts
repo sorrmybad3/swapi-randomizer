@@ -5,11 +5,11 @@ export async function getPeople(event: APIGatewayEvent) {
   return {
     message: "Hello from getPeople",
     event,
-  }
+  };
 }
 
 export const getPeopleHandler = httpHandlerWrapper(getPeople);
 
-export default { 
-  handler: getPeopleHandler
+export default {
+  handler: getPeopleHandler,
 };
