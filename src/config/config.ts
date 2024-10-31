@@ -1,14 +1,14 @@
-import 'reflect-metadata';
+import "reflect-metadata";
 import { injectable, singleton } from "tsyringe";
 import { z } from "zod";
 
 export enum EnvEnum {
-  SWAPI_ROOT_URL = 'SWAPI_ROOT_URL',
-  SWAPI_PEOPLE_ENDPOINT = 'SWAPI_PEOPLE_URL',
+  SWAPI_ROOT_URL = "SWAPI_ROOT_URL",
+  SWAPI_PEOPLE_ENDPOINT = "SWAPI_PEOPLE_URL",
 
-  AWS_REGION = 'AWS_REGION',
-  AWS_DYNAMODB_ENDPOINT = 'AWS_DYNAMODB_ENDPOINT',
-  AWS_DYNAMO_CHARACTERS_TABLE = 'AWS_DYNAMODB_TABLE_NAME'
+  AWS_REGION = "AWS_REGION",
+  AWS_DYNAMODB_ENDPOINT = "AWS_DYNAMODB_ENDPOINT",
+  AWS_DYNAMO_CHARACTERS_TABLE = "AWS_DYNAMODB_TABLE_NAME",
 }
 
 const envSchema = z.object({
@@ -17,28 +17,30 @@ const envSchema = z.object({
 
   AWS_REGION: z.string(),
   AWS_DYNAMODB_ENDPOINT: z.string(),
-  AWS_DYNAMO_CHARACTERS_TABLE: z.string()
+  AWS_DYNAMO_CHARACTERS_TABLE: z.string(),
 });
 
 @injectable()
 @singleton()
 export class Config {
   private static instance: Config;
-  private SWAPI_ROOT_URL = 'https://swapi.dev/api/';
-  private SWAPI_PEOPLE_ENDPOINT = 'people/';
+  private SWAPI_ROOT_URL = "https://swapi.dev/api/";
+  private SWAPI_PEOPLE_ENDPOINT = "people/";
 
-  private AWS_REGION = 'us-east-1';
-  private AWS_DYNAMODB_ENDPOINT = 'http://localhost:8000';
-  private AWS_DYNAMO_CHARACTERS_TABLE = 'Characters';
+  private AWS_REGION = "us-east-1";
+  private AWS_DYNAMODB_ENDPOINT = "http://localhost:8000";
+  private AWS_DYNAMO_CHARACTERS_TABLE = "Characters";
 
   constructor() {
     const env = envSchema.parse({
-      SWAPI_ROOT_URL: process.env.SWAPI_ROOT_URL || 'https://swapi.dev/api/',
-      SWAPI_PEOPLE_ENDPOINT: process.env.SWAPI_PEOPLE_ENDPOINT || 'people/',
+      SWAPI_ROOT_URL: process.env.SWAPI_ROOT_URL || "https://swapi.dev/api/",
+      SWAPI_PEOPLE_ENDPOINT: process.env.SWAPI_PEOPLE_ENDPOINT || "people/",
 
-      AWS_REGION: process.env.AWS_REGION || 'us-east-1',
-      AWS_DYNAMODB_ENDPOINT: process.env.AWS_DYNAMODB_ENDPOINT || 'http://localhost:8000',
-      AWS_DYNAMODB_TABLE_NAME: process.env.AWS_DYNAMO_CHARACTERS_TABLE || 'Characters'
+      AWS_REGION: process.env.AWS_REGION || "us-east-1",
+      AWS_DYNAMODB_ENDPOINT:
+        process.env.AWS_DYNAMODB_ENDPOINT || "http://localhost:8000",
+      AWS_DYNAMO_CHARACTERS_TABLE:
+        process.env.AWS_DYNAMO_CHARACTERS_TABLE || "Characters",
     });
 
     this.SWAPI_ROOT_URL = env.SWAPI_ROOT_URL;

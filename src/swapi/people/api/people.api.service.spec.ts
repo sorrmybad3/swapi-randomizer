@@ -1,10 +1,10 @@
-import 'reflect-metadata';
+import "reflect-metadata";
 import axios, { AxiosError } from "axios";
 import MockAdapter from "axios-mock-adapter";
 import { PeopleApiService } from "./people.api.service";
 import { SWAPIMock } from "../../../lib/test/mock/swapi.mock";
-import { container } from 'tsyringe';
-import { Config, EnvEnum } from '../../../config/config';
+import { container } from "tsyringe";
+import { Config, EnvEnum } from "../../../config/config";
 
 const mockedAxios = new MockAdapter(axios);
 

@@ -1,8 +1,9 @@
 # INFRA RETO - GENERADOR DE PERSONAJES
 
 Un simple projecto en la cual puedes:
-  - Generar un nuevo personaje.
-  - Crear un personaje a libre eleccion.
+
+- Generar un nuevo personaje.
+- Crear un personaje a libre eleccion.
 
 ## Informacion del proyecto
 

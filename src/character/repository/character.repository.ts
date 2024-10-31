@@ -3,7 +3,6 @@ import { inject, injectable } from "tsyringe";
 import { CharacterRepositoryI } from "./character.repository.interface";
 import { CreateCharacterDto } from "../dto/create.character.dto";
 import {
-  DynamoDB,
   DynamoDBClient,
   GetItemCommand,
   PutItemCommand,
@@ -11,29 +10,39 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { faker } from "@faker-js/faker";
 import { DynamoDocumentItemType } from "../../lib/types/dynamo.types";
-import { Config } from "../../config/config";
+import { Config, EnvEnum } from "../../config/config";
 
 @injectable()
 export class CharacterRepository implements CharacterRepositoryI {
   constructor(@inject(Config) private readonly config: Config) {}
 
   private readonly dynamoDb = new DynamoDBClient({
-    region: "us-east-1",
-    endpoint: "http://localhost:8000",
+    region: this.config.get(EnvEnum.AWS_REGION),
+    endpoint: this.config.get(EnvEnum.AWS_DYNAMODB_ENDPOINT),
   });
-  private readonly TABLE_NAME = "Characters";
-  doc = DynamoDB;
+  private readonly TABLE_NAME = this.config.get(
+    EnvEnum.AWS_DYNAMO_CHARACTERS_TABLE,
+  );
 
   async createCharacter(
     dto: CreateCharacterDto,
   ): Promise<DynamoDocumentItemType> {
+    console.debug("Creating character with dto: ", dto);
     let uuid = uuidv4();
     const putCharacterItem = {
       TableName: this.TABLE_NAME,
       Item: {
         id: { S: uuid },
         nombre: { S: dto?.nombre || faker.person.firstName() },
-        altura: { N: (dto?.altura || 160).toString() },
+        altura: {
+          N: (
+            dto?.altura ||
+            faker.number.int({
+              min: 140,
+              max: 200,
+            })
+          ).toString(),
+        },
       },
     };
     await this.dynamoDb.send(new PutItemCommand(putCharacterItem));
