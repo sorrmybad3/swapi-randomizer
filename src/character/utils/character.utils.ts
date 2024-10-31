@@ -7,7 +7,7 @@ export class CharacterUtils {
     return new CharacterSchema(
       character?.id?.S || "",
       character?.nombre?.S || "",
-      Number(character.altura.N)
+      Number(character.altura.N),
     );
   }
 }

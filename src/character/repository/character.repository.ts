@@ -1,19 +1,30 @@
-import 'reflect-metadata'
+import "reflect-metadata";
 import { injectable } from "tsyringe";
 import { CharacterRepositoryI } from "./character.repository.interface";
 import { CreateCharacterDto } from "../dto/create.character.dto";
-import { DynamoDB, DynamoDBClient, GetItemCommand, GetItemCommandOutput, PutItemCommand } from "@aws-sdk/client-dynamodb";
-import { v4 as uuidv4} from 'uuid'
+import {
+  DynamoDB,
+  DynamoDBClient,
+  GetItemCommand,
+  GetItemCommandOutput,
+  PutItemCommand,
+} from "@aws-sdk/client-dynamodb";
+import { v4 as uuidv4 } from "uuid";
 import { faker } from "@faker-js/faker";
-import { DynamoDocumentItemType } from '../../lib/types/dynamo.types';
+import { DynamoDocumentItemType } from "../../lib/types/dynamo.types";
 
 @injectable()
 export class CharacterRepository implements CharacterRepositoryI {
-  private readonly dynamoDb = new DynamoDBClient({region: "us-east-1", endpoint: 'http://localhost:8000'});
-  private readonly TABLE_NAME = 'Characters';
-  doc = DynamoDB
+  private readonly dynamoDb = new DynamoDBClient({
+    region: "us-east-1",
+    endpoint: "http://localhost:8000",
+  });
+  private readonly TABLE_NAME = "Characters";
+  doc = DynamoDB;
 
-  async createCharacter(dto: CreateCharacterDto): Promise<DynamoDocumentItemType> {
+  async createCharacter(
+    dto: CreateCharacterDto,
+  ): Promise<DynamoDocumentItemType> {
     let uuid = uuidv4();
     const putCharacterItem = {
       TableName: this.TABLE_NAME,
@@ -35,7 +46,9 @@ export class CharacterRepository implements CharacterRepositoryI {
         id: { S: id },
       },
     };
-    const lookupResult = await this.dynamoDb.send(new GetItemCommand(lookupCharacterItem));
+    const lookupResult = await this.dynamoDb.send(
+      new GetItemCommand(lookupCharacterItem),
+    );
     return lookupResult.Item;
   }
 }

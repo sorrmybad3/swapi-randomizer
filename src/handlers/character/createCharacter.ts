@@ -7,7 +7,7 @@ import { CreateCharacterDto } from "../../character/dto/create.character.dto";
 
 export async function createCharacter(event: APIGatewayEvent) {
   let characterService = container.resolve(CharacterService);
-  let { body = "" } = event
+  let { body = "" } = event;
   const dto = JSON.parse(body || "{}") as CreateCharacterDto;
   return await characterService.createCharacter(dto);
 }

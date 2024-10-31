@@ -6,8 +6,8 @@ import { CharacterService } from "../../character/service/character.service";
 
 export async function findOneCharacter(event: APIGatewayEvent) {
   let characterService = container.resolve(CharacterService);
-  let { pathParameters } = event
-  let { id = "" } = pathParameters || {}
+  let { pathParameters } = event;
+  let { id = "" } = pathParameters || {};
   return await characterService.findOneCharacter(id);
 }
 

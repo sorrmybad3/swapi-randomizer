@@ -6,7 +6,7 @@ import { PeopleService } from "../../swapi/people/service/people.service";
 
 export async function getPeople(event: APIGatewayEvent) {
   let peopleService = container.resolve(PeopleService);
-  let { pathParameters } = event
+  let { pathParameters } = event;
   let { id = 1 } = pathParameters || {};
   return await peopleService.findPeople(+id);
 }

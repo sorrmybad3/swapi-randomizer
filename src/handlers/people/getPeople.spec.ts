@@ -25,7 +25,7 @@ describe("Get poeple labmda handler unit test.", () => {
     let apiGatewayEventMock = AWSMock.generateApiGatewayEvent({});
     const response = await getPeopleHandler(apiGatewayEventMock);
     const { body = "", statusCode } = response || {};
-    
+
     const data = JSON.parse(body);
     expect(statusCode).toBe(200);
     expect(data).toStrictEqual(person);

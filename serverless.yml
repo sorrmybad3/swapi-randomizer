@@ -12,12 +12,12 @@ provider:
 
 functions:
   findOneCharacter:
-      handler: src/handlers/people/findOneCharacter.findOneCharacterHandler
-      events:
-        - http:
-            path: character/{id}
-            method: get
-            cors: true
+    handler: src/handlers/people/findOneCharacter.findOneCharacterHandler
+    events:
+      - http:
+          path: character/{id}
+          method: get
+          cors: true
   createCharacter:
     handler: src/handlers/character/createCharacter.createCharacterHandler
     events:
@@ -32,7 +32,6 @@ functions:
           path: myswapi/{id}
           method: get
           cors: true
-
 
 resources:
   Resources:
