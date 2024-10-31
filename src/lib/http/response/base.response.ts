@@ -1,6 +1,6 @@
 export class BaseResponse {
-  private readonly statusCode: number;
-  private readonly body?: string;
+  readonly statusCode: number;
+  readonly body?: string;
 
   constructor(statusCode: number, body?: unknown) {
     this.statusCode = statusCode;

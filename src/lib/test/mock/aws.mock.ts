@@ -17,7 +17,7 @@ export class AWSMock {
         accountId: "123456789012",
         apiId: "api-id",
         authorizer: {
-          claims: null
+          claims: null,
         },
         domainName: "testDomainName",
         domainPrefix: "testPrefix",

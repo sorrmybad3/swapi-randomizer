@@ -1,13 +1,15 @@
 import { APIGatewayEvent } from "aws-lambda";
+import { httpHandlerWrapper } from "../../lib/wrapper/http.wrapper";
 
-export async function getPeopleHandler(event: APIGatewayEvent) {
+export async function getPeople(event: APIGatewayEvent) {
   return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: "Hello from getPeople",
-      event,
-    }),
-  };
+    message: "Hello from getPeople",
+    event,
+  }
 }
 
-export { getPeopleHandler as handler };
+export const getPeopleHandler = httpHandlerWrapper(getPeople);
+
+export default { 
+  handler: getPeopleHandler
+};
