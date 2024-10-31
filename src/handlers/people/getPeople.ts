@@ -6,7 +6,9 @@ import { PeopleService } from "../../swapi/people/service/people.service";
 
 export async function getPeople(event: APIGatewayEvent) {
   let peopleService = container.resolve(PeopleService);
-  return await peopleService.findPeople(1);
+  let { pathParameters } = event
+  let { id = 1 } = pathParameters || {};
+  return await peopleService.findPeople(+id);
 }
 
 export const getPeopleHandler = httpHandlerWrapper(getPeople);

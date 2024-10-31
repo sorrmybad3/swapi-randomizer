@@ -18,6 +18,13 @@ functions:
           path: myswapi/{id}
           method: get
           cors: true
+  createCharacter:
+    handler: src/handlers/people/createCharacter.createCharacterHandler
+    events:
+      - http:
+          path: myswapi
+          method: post
+          cors: true
 
 plugins:
   - serverless-offline
