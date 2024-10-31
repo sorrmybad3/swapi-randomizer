@@ -14,3 +14,11 @@ Un simplem projecto en la cual puedes:
 
 - npm install
 
+## Scripts
+
+- "prettier": Ejecuta el formateo Prettier.
+- "eslint": Ejecuta el chequeo eslint.
+- "lint": Ejecuta scripts de prettier y eslint juntos.,
+- "test": Ejecuta los tests,
+- "local": Levanta el ambiente local,
+- "deploy": Levanta el projecto en la nube.
