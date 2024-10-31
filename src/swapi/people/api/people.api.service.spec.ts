@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import MockAdapter from 'axios-mock-adapter'
+import MockAdapter from "axios-mock-adapter";
 import { PeopleApiService } from "./people.api.service";
 import { SWAPIMock } from "../../../lib/test/mock/swapi.mock";
 
@@ -21,12 +21,10 @@ describe("PeopleApiService Test", () => {
     const spy = jest.spyOn(axios, "get");
     mockedAxios.onGet(path).replyOnce(200, person);
     const result = await peopleApiService.get(personId);
-    
+
     expect(result).toEqual(person);
-    expect(spy).toHaveBeenCalledWith(
-      path,
-    );
-    expect(spy).toHaveBeenCalled()
+    expect(spy).toHaveBeenCalledWith(path);
+    expect(spy).toHaveBeenCalled();
   });
 
   it("should fetch a character by ID and return an error", async () => {
@@ -42,7 +40,7 @@ describe("PeopleApiService Test", () => {
       expect(axiosError.response?.status).toEqual(404);
       expect(axiosError.response?.data).toEqual({ detail: "Not found" });
     }
-  })
+  });
 
   it("should throw timeout error", async () => {
     mockedAxios.onGet(`${rootUrl}/${endpoint}/1`).timeout();
@@ -54,5 +52,5 @@ describe("PeopleApiService Test", () => {
       const axiosError = error as AxiosError;
       expect(axiosError.code).toEqual("ECONNABORTED");
     }
-  })
+  });
 });

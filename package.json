@@ -37,6 +37,7 @@
     "axios-mock-adapter": "^2.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "dotenv": "^16.4.5",
     "dynamodb-toolbox": "^1.11.10",
     "reflect-metadata": "^0.2.2",
     "serverless-dynamodb": "^0.2.54",

@@ -17,6 +17,6 @@ export class MapperUtils {
     const messages = errors.map((error: ValidationError) => {
       return error.constraints;
     });
-    return messages
+    return messages;
   }
 }

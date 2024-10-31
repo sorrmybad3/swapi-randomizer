@@ -11,8 +11,6 @@ describe("People Service Unit test", () => {
   let peopleApiServiceMock: PeopleApiService = {
     get: jest.fn().mockResolvedValue(person),
   } as unknown as PeopleApiService;
-  ;
-
   beforeAll(() => {
     container.register(PeopleApiService, { useValue: peopleApiServiceMock });
     peopleService = container.resolve(PeopleService);
@@ -25,10 +23,7 @@ describe("People Service Unit test", () => {
   it("should fetch a character by ID", async () => {
     const spy = jest.spyOn(peopleApiServiceMock, "get");
     const result = await peopleService.findPeople(1);
-    expect(result).toStrictEqual(new PeopleSchema(
-      "Luke Skywalker",
-      "172",
-    ));
+    expect(result).toStrictEqual(new PeopleSchema("Luke Skywalker", "172"));
     expect(spy).toHaveBeenCalledWith(1);
   });
 });
