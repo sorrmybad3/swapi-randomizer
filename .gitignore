@@ -1,6 +1,8 @@
 #serverless offline
 undefined
 
+docker/
+
 # Logs
 logs
 *.log
