@@ -1,35 +1,41 @@
+import 'reflect-metadata'
 import { injectable } from "tsyringe";
-import { CharacterSchema } from "../entity/character.entity";
 import { CharacterRepositoryI } from "./character.repository.interface";
 import { CreateCharacterDto } from "../dto/create.character.dto";
-import { DynamoDBClient, GetItemCommand, GetItemCommandOutput, PutItemCommand } from "@aws-sdk/client-dynamodb";
+import { DynamoDB, DynamoDBClient, GetItemCommand, GetItemCommandOutput, PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { v4 as uuidv4} from 'uuid'
-import { faker } from "@faker-js/faker/.";
-import { MapperUtils } from "../../lib/mapper/mapper.utils";
+import { faker } from "@faker-js/faker";
+import { DynamoDocumentItemType } from '../../lib/types/dynamo.types';
 
 @injectable()
 export class CharacterRepository implements CharacterRepositoryI {
-  private readonly dynamoDb = new DynamoDBClient({region: 'us-east-1'});
+  private readonly dynamoDb = new DynamoDBClient({region: "us-east-1", endpoint: 'http://localhost:8000'});
   private readonly TABLE_NAME = 'Characters';
+  doc = DynamoDB
 
-  async createCharacter(dto: CreateCharacterDto): Promise<GetItemCommandOutput> {
+  async createCharacter(dto: CreateCharacterDto): Promise<DynamoDocumentItemType> {
     let uuid = uuidv4();
     const putCharacterItem = {
       TableName: this.TABLE_NAME,
       Item: {
         id: { S: uuid },
-        nombre: { S: dto?.nombre || faker.name.firstName() },
+        nombre: { S: dto?.nombre || faker.person.firstName() },
         altura: { N: (dto?.altura || 160).toString() },
       },
     };
     await this.dynamoDb.send(new PutItemCommand(putCharacterItem));
 
+    return await this.findOneCharacter(uuid);
+  }
+
+  async findOneCharacter(id: string): Promise<DynamoDocumentItemType> {
     const lookupCharacterItem = {
       TableName: this.TABLE_NAME,
       Key: {
-        id: { S: uuid },
+        id: { S: id },
       },
     };
-    return await this.dynamoDb.send(new GetItemCommand(lookupCharacterItem));
+    const lookupResult = await this.dynamoDb.send(new GetItemCommand(lookupCharacterItem));
+    return lookupResult.Item;
   }
 }

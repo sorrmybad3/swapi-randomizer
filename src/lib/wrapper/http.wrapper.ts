@@ -10,7 +10,8 @@ export function httpHandlerWrapper(handler: HandlerFunction) {
       const result = await handler(event);
       return new OKReponse(result);
     } catch (error) {
-      return handleError(error, "Failed to get person.");
+      console.error("Error", error);
+      return handleError(error, "Fatal error");
     }
   };
 }

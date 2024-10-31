@@ -11,6 +11,20 @@ provider:
     shouldStartNameWithService: true
 
 functions:
+  findOneCharacter:
+      handler: src/handlers/people/findOneCharacter.findOneCharacterHandler
+      events:
+        - http:
+            path: character/{id}
+            method: get
+            cors: true
+  createCharacter:
+    handler: src/handlers/character/createCharacter.createCharacterHandler
+    events:
+      - http:
+          path: character
+          method: post
+          cors: true
   getPeople:
     handler: src/handlers/people/getPeople.getPeopleHandler
     events:
@@ -18,13 +32,23 @@ functions:
           path: myswapi/{id}
           method: get
           cors: true
-  createCharacter:
-    handler: src/handlers/people/createCharacter.createCharacterHandler
-    events:
-      - http:
-          path: myswapi
-          method: post
-          cors: true
+
+
+resources:
+  Resources:
+    CharactersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Characters
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
 
 plugins:
   - serverless-offline
