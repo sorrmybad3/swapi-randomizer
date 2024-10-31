@@ -2,13 +2,13 @@ import { Expose } from "class-transformer";
 
 export class PeopleSchema {
   @Expose({ name: "name" })
-  name: string;
+  nombre: string;
 
   @Expose({ name: "height" })
-  height: string;
+  altura: string;
 
   constructor(name: string, height: string) {
-    this.name = name;
-    this.height = height;
+    this.nombre = name;
+    this.altura = height;
   }
 }

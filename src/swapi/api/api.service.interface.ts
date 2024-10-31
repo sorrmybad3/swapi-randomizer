@@ -1,3 +1,3 @@
-export interface ApiServiceI {
-  get<T>(id: number): Promise<T>;
+export interface ApiServiceI<T> {
+  get(id: number): Promise<T>;
 }

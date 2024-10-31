@@ -12,7 +12,7 @@ provider:
 
 functions:
   getPeople:
-    handler: src/handlers/people/getPeople.handler
+    handler: src/handlers/people/getPeople.getPeopleHandler
     events:
       - http:
           path: myswapi/{id}
