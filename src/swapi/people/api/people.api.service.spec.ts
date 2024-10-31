@@ -1,14 +1,18 @@
+import 'reflect-metadata';
 import axios, { AxiosError } from "axios";
 import MockAdapter from "axios-mock-adapter";
 import { PeopleApiService } from "./people.api.service";
 import { SWAPIMock } from "../../../lib/test/mock/swapi.mock";
+import { container } from 'tsyringe';
+import { Config, EnvEnum } from '../../../config/config';
 
 const mockedAxios = new MockAdapter(axios);
 
 describe("PeopleApiService Test", () => {
-  let peopleApiService: PeopleApiService = new PeopleApiService();
-  let rootUrl = "https://swapi.dev/api";
-  let endpoint = "people";
+  let config: Config = container.resolve(Config);
+  let peopleApiService: PeopleApiService = container.resolve(PeopleApiService);
+  let rootUrl = config.get(EnvEnum.SWAPI_ROOT_URL);
+  let endpoint = config.get(EnvEnum.SWAPI_PEOPLE_ENDPOINT);
   let personId = 1;
   let path = `${rootUrl}/${endpoint}/${personId}`;
 
@@ -28,7 +32,7 @@ describe("PeopleApiService Test", () => {
   });
 
   it("should fetch a character by ID and return an error", async () => {
-    mockedAxios.onGet(`${rootUrl}/${endpoint}/1`).replyOnce(404, {
+    mockedAxios.onGet(path).replyOnce(404, {
       detail: "Not found",
     });
     try {
@@ -43,7 +47,7 @@ describe("PeopleApiService Test", () => {
   });
 
   it("should throw timeout error", async () => {
-    mockedAxios.onGet(`${rootUrl}/${endpoint}/1`).timeout();
+    mockedAxios.onGet(path).timeout();
     try {
       await peopleApiService.get(1);
       fail("Should have thrown an error");

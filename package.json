@@ -41,6 +41,7 @@
     "reflect-metadata": "^0.2.2",
     "serverless-dynamodb": "^0.2.54",
     "tsyringe": "^4.8.0",
-    "uuid": "^11.0.2"
+    "uuid": "^11.0.2",
+    "zod": "^3.23.8"
   }
 }
