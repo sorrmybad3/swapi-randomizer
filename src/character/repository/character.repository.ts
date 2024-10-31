@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { injectable } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 import { CharacterRepositoryI } from "./character.repository.interface";
 import { CreateCharacterDto } from "../dto/create.character.dto";
 import {
@@ -11,9 +11,12 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { faker } from "@faker-js/faker";
 import { DynamoDocumentItemType } from "../../lib/types/dynamo.types";
+import { Config } from "../../config/config";
 
 @injectable()
 export class CharacterRepository implements CharacterRepositoryI {
+  constructor(@inject(Config) private readonly config: Config) {}
+
   private readonly dynamoDb = new DynamoDBClient({
     region: "us-east-1",
     endpoint: "http://localhost:8000",
