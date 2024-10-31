@@ -4,10 +4,10 @@ async function handler(event: APIGatewayEvent) {
   return {
     statusCode: 200,
     body: JSON.stringify({
-      message: 'Hello from getPeople',
+      message: "Hello from getPeople",
       event,
     }),
-  }
+  };
 }
 
 module.exports = { handler };

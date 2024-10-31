@@ -6,7 +6,8 @@
   "scripts": {
     "prettier": "prettier --write .",
     "eslint": "eslint . --fix-dry-run --cache",
-    "lint": "npm run prettier && npm run eslint"
+    "lint": "npm run prettier && npm run eslint",
+    "local": "npx serverless offline"
   },
   "keywords": [],
   "author": "",
