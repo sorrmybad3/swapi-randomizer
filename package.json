@@ -8,7 +8,8 @@
     "eslint": "eslint . --fix-dry-run --cache",
     "lint": "npm run prettier && npm run eslint",
     "test": "jest",
-    "local": "npx serverless offline"
+    "local": "npx serverless offline",
+    "deploy": "npx serverless deploy"
   },
   "keywords": [],
   "author": "",
