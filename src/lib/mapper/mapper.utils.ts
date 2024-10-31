@@ -1,5 +1,5 @@
 import { ClassConstructor, plainToInstance } from "class-transformer";
-import { validate, ValidationError } from "class-validator";
+import { validateOrReject, ValidationError } from "class-validator";
 
 export class MapperUtils {
   public static async map<T extends object>(
@@ -9,10 +9,7 @@ export class MapperUtils {
     const instance = plainToInstance(cls, data, {
       excludeExtraneousValues: true,
     });
-    const errors = await validate(instance);
-    if (errors.length > 0) {
-      this.handleValidationErrors(errors);
-    }
+    await validateOrReject(instance);
     return instance;
   }
 
@@ -20,6 +17,6 @@ export class MapperUtils {
     const messages = errors.map((error: ValidationError) => {
       return error.constraints;
     });
-    throw new Error(messages.join(", "));
+    return messages
   }
 }
