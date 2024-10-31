@@ -1,6 +1,6 @@
 import { APIGatewayEvent } from "aws-lambda";
 
-async function handler(event: APIGatewayEvent) {
+export async function getPeopleHandler(event: APIGatewayEvent) {
   return {
     statusCode: 200,
     body: JSON.stringify({
@@ -10,4 +10,4 @@ async function handler(event: APIGatewayEvent) {
   };
 }
 
-module.exports = { handler };
+export { getPeopleHandler as handler };
